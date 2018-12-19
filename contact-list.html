@@ -1,0 +1,185 @@
+<link rel="import" href="../polymer/polymer-element.html">
+<link rel="import" href="../paper-card/paper-card.html">
+<link rel="import" href="../paper-button/paper-button.html">
+
+<dom-module id="contact-list">
+  <template>
+    <style>
+      :host {
+        display: block;
+      }
+
+      .adjust-content {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-around;
+      }
+
+      paper-card {
+        display: inline-block;
+        margin: 2px 2px;
+      }
+
+      .img-circle {
+        height: 10rem;
+        width: 10rem;
+        border: 0.04em solid rgb(240, 240, 240);
+        border-radius: 50%;
+        background-repeat: no-repeat;
+        background-position: 50%;
+        background-size: 100% auto;
+        background-color: white;
+      }
+
+      .text-card-center {
+        text-align: center;
+        margin-top: 5px;
+      }
+
+      .flag {
+        display: inline-block;
+        height: 10px;
+        width: 10px;
+        border-radius: 50%;
+      }
+
+      .online {}
+
+      .online div.flag {
+        background-color: rgb(52, 207, 31);
+      }
+
+      .offline {
+        background-color: rgb(221, 221, 221);
+      }
+
+      .offline div.img-circle {
+        border: 0.04em solid black;
+        background-color: rgb(221, 221, 221);
+      }
+
+      .offline strong.status-contact {
+        text-decoration: line-through;
+      }
+
+      .offline div.flag {
+        border: 0.1em solid black;
+        background-color: rgb(150, 150, 150);
+      }
+
+      .title-card {
+        font-size: 1rem;
+        font-weight: bolder;
+        text-decoration: underline;
+      }
+
+      .no-contacts {
+        background-image: url('https://k09.kn3.net/3A1366A0D.jpg');
+        background-size: 100% auto;
+        background-repeat: no-repeat;
+        width: 22rem;
+        height: 17rem;
+      }
+    </style>
+    <p class="title-card text-card-center">
+      [[textList]]
+      <dom-if if="[[!_existContacts(contacts)]]">
+        <template>
+          <br />[[online]] online / [[offline]] offline
+        </template>
+      </dom-if>
+    </p>
+    <div class="adjust-content">
+      <dom-repeat items="[[contacts]]" as="contact">
+        <template>
+          <paper-card alt="[[contact.firstName]] [[contact.lastName]]" class$="[[contact.status]]">
+            <div class="card-content">
+              <div class="img-circle" style$="background-image: url([[contact.image]])"></div>
+              <div class="text-card-center">
+                <div class="flag"></div>
+                <strong class="status-contact">[[contact.status]]</strong>
+              </div>
+            </div>
+            <div class="card-actions">
+              <paper-button on-tap="show">Información</paper-button>
+            </div>
+          </paper-card>
+        </template>
+      </dom-repeat>
+      <dom-if if="[[_existContacts(contacts)]]">
+        <template>
+          <div class="no-contacts"></div>
+        </template>
+      </dom-if>
+    </div>
+  </template>
+
+  <script>
+    /**
+     * `contact-list`
+     * Element to generate contact list
+     *
+     * @customElement
+     * @polymer
+     * @demo demo/index.html
+     */
+    class ContactList extends Polymer.Element {
+      static get is() { return 'contact-list'; }
+      static get properties() {
+        return {
+          contacts: {
+            type: Array,
+            value: []
+          },
+          online: {
+            type: Number,
+            computed: "_getCountContactStatus(contacts,'online')"
+          },
+          offline: {
+            type: Number,
+            computed: "_getCountContactStatus(contacts,'offline')"
+          },
+          textList: {
+            type: String,
+            computed: "_convertSizeList(contacts)"
+          }
+        };
+      }
+
+      _getCountContactStatus(contacts, status) {
+        return contacts.filter(contact => contact.status === status).length;
+      }
+
+      _convertSizeList(size) {
+        let text;
+        if (size.length > 1) {
+          text = "Hay " + size.length + " contactos registrados";
+        } else if (size === 1) {
+          text = "Hay " + size.length + " contacto registrado";
+        } else {
+          text = "Sin contactos";
+        }
+        return text;
+      }
+
+      _existContacts(list) {
+        let number = list.length;
+        if (number > 0) {
+          return false;
+        } else {
+          return true;
+        }
+      }
+
+      show(event) {
+        this.dispatchEvent(new CustomEvent("contact-detail", {
+          bubbles: false,
+          composed: false,
+          detail: event.model.contact
+        }));
+      }
+    }
+
+    window.customElements.define(ContactList.is, ContactList);
+  </script>
+</dom-module>

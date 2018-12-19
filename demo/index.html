@@ -1,0 +1,86 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, minimum-scale=1, initial-scale=1, user-scalable=yes">
+
+  <title>contact-list demo</title>
+
+  <script src="../../webcomponentsjs/webcomponents-loader.js"></script>
+
+  <link rel="import" href="../../iron-demo-helpers/demo-pages-shared-styles.html">
+  <link rel="import" href="../../iron-demo-helpers/demo-snippet.html">
+  <link rel="import" href="../contact-list.html">
+  <link rel="import" href="../../paper-alert-dialog/paper-alert-dialog.html">
+
+  <custom-style>
+    <style is="custom-style" include="demo-pages-shared-styles">
+    </style>
+  </custom-style>
+</head>
+
+<body>
+  <div class="vertical-section-container centered">
+    <h3>Basic contact-list demo</h3>
+    <demo-snippet>
+      <template>
+        <contact-list></contact-list>
+        <paper-alert-dialog id="alert-info" dismiss-button="Cerrar" confirm-button=""></paper-alert-dialog>
+      </template>
+      <script>
+        const element = document.querySelector("contact-list");
+        const alertComponent = document.querySelector("#alert-info");
+        element.set("contacts", [
+          {
+            firstName: 'Aru',
+            lastName: 'Akise',
+            age: 15,
+            image: 'https://st-listas.20minutos.es/images/2013-11/372675/4249548_249px.jpg?1385314109',
+            status: 'offline'
+          },
+          {
+            firstName: 'Minene',
+            lastName: 'Uryū',
+            age: 22,
+            image: 'https://st-listas.20minutos.es/images/2013-11/372675/4249545_249px.jpg?1385314109',
+            status: 'online'
+          },
+          {
+            firstName: 'Yuno',
+            lastName: 'Gasai',
+            age: 14,
+            image: 'https://st-listas.20minutos.es/images/2013-11/372675/4249536_249px.jpg?1385314109',
+            status: 'online'
+          },
+          {
+            firstName: 'Tsubaki',
+            lastName: 'Kasugano',
+            age: 13,
+            image: 'https://st-listas.20minutos.es/images/2013-11/372675/4249540_249px.jpg?1385314109',
+            status: 'offline'
+          },
+          {
+            firstName: 'Reisuke',
+            lastName: 'Hôjô',
+            age: 7,
+            image: 'https://st-listas.20minutos.es/images/2013-11/372675/4249539_249px.jpg?1385314109',
+            status: 'offline'
+          }
+        ]);
+        element.addEventListener('contact-detail', event => {
+          let contact = event.detail;
+          alertComponent.title = contact.firstName + " " + contact.lastName;
+          alertComponent.textContent =
+            "Edad: " + contact.age +", "+
+            "Estatus: " + contact.status + ", "+
+            "Imagen: " + contact.image
+            ;
+          alertComponent.open();
+        })
+      </script>
+    </demo-snippet>
+  </div>
+</body>
+
+</html>
