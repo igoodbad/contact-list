@@ -92,7 +92,7 @@
     <div class="adjust-content">
       <dom-repeat items="[[contacts]]" as="contact">
         <template>
-          <paper-card alt="[[contact.firstName]] [[contact.lastName]]" class$="[[contact.status]]">
+          <paper-card heading="[[contact.firstName]] [[contact.lastName]]" alt="[[contact.firstName]] [[contact.lastName]]" class$="[[contact.status]]">
             <div class="card-content">
               <div class="img-circle" style$="background-image: url([[contact.image]])"></div>
               <div class="text-card-center">
