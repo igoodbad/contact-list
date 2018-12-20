@@ -106,7 +106,7 @@
           </paper-card>
         </template>
       </dom-repeat>
-      <dom-if if="[[_existContacts(contacts)]]">
+      <dom-if if="[[existContacts]]">
         <template>
           <div class="no-contacts"></div>
         </template>
@@ -142,6 +142,10 @@
           textList: {
             type: String,
             computed: "_convertSizeList(contacts)"
+          },
+          existContacts: {
+            type: Object,
+            value: true
           }
         };
       }
