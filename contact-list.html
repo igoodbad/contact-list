@@ -129,7 +129,6 @@
         return {
           contacts: {
             type: Array,
-            readOnly: false,
             value: []
           },
           online: {
@@ -175,8 +174,7 @@
        * @return boolean
        */
       _existContacts(list) {
-        let number = list.length;
-        if (number > 0) {
+        if (list.length > 0) {
           return false;
         } else {
           return true;
