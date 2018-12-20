@@ -83,7 +83,7 @@
     </style>
     <p class="title-card text-card-center">
       [[textList]]
-      <dom-if if="[[!_existContacts(contacts)]]">
+      <dom-if if="[[!existContacts]]">
         <template>
           <br />[[online]] online / [[offline]] offline
         </template>
@@ -179,9 +179,9 @@
        */
       _existContacts(list) {
         if (list.length > 0) {
-          return false;
-        } else {
           return true;
+        } else {
+          return false;
         }
       }
 
