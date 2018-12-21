@@ -83,11 +83,11 @@
     </style>
     <p class="title-card text-card-center">
       [[textList]]
-      <dom-if if="[[!existContacts]]">
+      <div hidden="[[!existContacts]]">
         <template>
           <br />[[online]] online / [[offline]] offline
         </template>
-      </dom-if>
+      </div>
     </p>
     <div class="adjust-content">
       <dom-repeat items="[[contacts]]" as="contact">
