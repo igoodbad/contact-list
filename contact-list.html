@@ -84,9 +84,7 @@
     <p class="title-card text-card-center">
       [[textList]]
       <div hidden="[[!existContacts]]">
-        <template>
-          <br />[[online]] online / [[offline]] offline
-        </template>
+        <br />[[online]] online / [[offline]] offline
       </div>
     </p>
     <div class="adjust-content">
@@ -106,9 +104,7 @@
           </paper-card>
         </template>
       </dom-repeat>
-        <template hidden="[[existContacts]]">
-          <div class="no-contacts"></div>
-        </template>
+      <div class="no-contacts" hidden$="[[existContacts]]"></div>
     </div>
   </template>
 
@@ -142,8 +138,8 @@
             computed: "_convertSizeList(contacts)"
           },
           existContacts: {
-            type: Object,
-            computed: "_existContacts(contacts)"
+            type: Boolean,
+            computed: "_existContacts()"
           }
         };
       }
@@ -175,12 +171,8 @@
        * Function to check if exist contacts
        * @return boolean
        */
-      _existContacts(list) {
-        if (list.length > 0) {
-          return true;
-        } else {
-          return false;
-        }
+      _existContacts() {
+        this.set('existContacts', this.contacts.length > 0);
       }
 
       /**
