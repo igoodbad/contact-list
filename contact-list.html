@@ -81,9 +81,9 @@
     </style>
     <p class="title-card text-card-center">
       [[textList]]
-      <div hidden="[[!existContacts]]">
+      <span hidden$="[[!existContacts]]">
         <br />[[online]] online / [[offline]] offline
-      </div>
+      </span>
     </p>
     <div class="adjust-content">
       <dom-repeat items="[[contacts]]" as="contact">
@@ -121,23 +121,24 @@
         return {
           contacts: {
             type: Array,
-            value: () => ([])
+            value: () => ([]),
+            observer: "_existContacts"
           },
           online: {
             type: Number,
-            computed: "_getCountContactStatus('online')"
+            computed: "_getCountContactStatus(contacts,'online')"
           },
           offline: {
             type: Number,
-            computed: "_getCountContactStatus('offline')"
+            computed: "_getCountContactStatus(contacts,'offline')"
           },
           textList: {
             type: String,
-            computed: "_convertSizeList()"
+            computed: "_convertSizeList(contacts)"
           },
           existContacts: {
             type: Boolean,
-            computed: "_existContacts()"
+            value: false
           },
           labels: {
             type: Object,
@@ -154,8 +155,8 @@
        * Function to count users by status
        * @return Number
        */
-      _getCountContactStatus(status) {
-        return this.contacts.filter(contact => contact.status === status).length;
+      _getCountContactStatus(contacts, status) {
+        return contacts.filter(contact => contact.status === status).length;
       }
 
       /**
@@ -163,8 +164,9 @@
        */
       _convertSizeList() {
         let text;
-        if (this.existContacts > 0) {
-          text = this.labels.txtContacts + this.existContacts;
+        let number = this.contacts.length;
+        if (number > 0) {
+          text = this.labels.txtContacts + ": " + number;
         } else {
           text = this.labels.txtNoContacts;
         }
