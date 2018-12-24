@@ -97,7 +97,7 @@
               </div>
             </div>
             <div class="card-actions">
-              <paper-button on-tap="show">Información</paper-button>
+              <paper-button on-tap="show">[[labels.btnInfo]]</paper-button>
             </div>
           </paper-card>
         </template>
@@ -125,19 +125,27 @@
           },
           online: {
             type: Number,
-            computed: "_getCountContactStatus(contacts,'online')"
+            computed: "_getCountContactStatus('online')"
           },
           offline: {
             type: Number,
-            computed: "_getCountContactStatus(contacts,'offline')"
+            computed: "_getCountContactStatus('offline')"
           },
           textList: {
             type: String,
-            computed: "_convertSizeList(contacts)"
+            computed: "_convertSizeList()"
           },
           existContacts: {
             type: Boolean,
             computed: "_existContacts()"
+          },
+          labels: {
+            type: Object,
+            value: {
+              txtNoContacts: "Sin contactos",
+              txtContacts: "Contactos registrados",
+              btnInfo: "Información"
+            }
           }
         };
       }
@@ -146,21 +154,19 @@
        * Function to count users by status
        * @return Number
        */
-      _getCountContactStatus(contacts, status) {
-        return contacts.filter(contact => contact.status === status).length;
+      _getCountContactStatus(status) {
+        return this.contacts.filter(contact => contact.status === status).length;
       }
 
       /**
        * Function to create a custom text depending of a number of users in a list
        */
-      _convertSizeList(size) {
+      _convertSizeList() {
         let text;
-        if (size.length > 1) {
-          text = "Hay " + size.length + " contactos registrados";
-        } else if (size.length === 1) {
-          text = "Hay " + size.length + " contacto registrado";
+        if (number > 0) {
+          text = this.labels.txtContacts + this.existContacts;
         } else {
-          text = "Sin contactos";
+          text = this.labels.txtNoContacts;
         }
         return text;
       }
